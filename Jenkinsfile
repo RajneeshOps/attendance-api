@@ -7,7 +7,11 @@ node {
 
         stage('Dependency Scan') {
             // Run OWASP Dependency-Check
-            dependencyCheckPublisher(pattern: '**', includesExcludes: [[includePattern: '**']], failBuildOnCVSS: '10')
+            dependencyCheckAnalyzer(
+                odcInstallation: 'dependency-check',
+                odcFlags: '--failBuildOnCVSS 10',
+                odcOutputDirectory: 'dependency-check-report'
+            )
         }
 
         stage('Publish Dependency Check Report') {
@@ -16,8 +20,8 @@ node {
                 allowMissing: false,
                 alwaysLinkToLastBuild: false,
                 keepAll: true,
-                reportDir: '',
-                reportFiles: 'dep-check.html',
+                reportDir: 'dependency-check-report',
+                reportFiles: 'dependency-check.html',
                 reportName: 'Dependency Check Report'
             ])
         }
