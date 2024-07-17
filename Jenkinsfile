@@ -7,15 +7,21 @@ node {
 
         stage('Dependency Scan') {
             // Run OWASP Dependency-Check
-            dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'dependency-check'
+            dependencyCheckPublisher(pattern: '**', includesExcludes: [[includePattern: '**']], failBuildOnCVSS: '10')
         }
 
         stage('Publish Dependency Check Report') {
-            // Publish the Dependency Check Report
-            dependencyCheckPublisher pattern: '**/dependency-check-report.html'
+            // Publish Dependency Check report
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: '',
+                reportFiles: 'dep-check.html',
+                reportName: 'Dependency Check Report'
+            ])
         }
     } catch (Exception e) {
-        // Handle any exceptions that occur during the pipeline execution
         currentBuild.result = 'FAILURE'
         throw e
     }
