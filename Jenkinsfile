@@ -5,13 +5,15 @@ node {
             git branch: 'main', url: 'https://github.com/RajneeshOps/attendance-api.git'
         }
 
-        stage('Dependency Scan') {
-            // Run OWASP Dependency-Check
-            dependencyCheckAnalyzer(
-                odcInstallation: 'dependency-check',
-                odcFlags: '--failBuildOnCVSS 10',
-                odcOutputDirectory: 'dependency-check-report'
-            )
+        stage('OWASP Dependency-Check Vulnerabilities') {
+          steps {
+            dependencyCheck additionalArguments: ''' 
+                    -o './'
+                    -s './'
+                    -f 'ALL' 
+                    --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
+            dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+          }
         }
 
         stage('Publish Dependency Check Report') {
