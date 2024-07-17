@@ -10,7 +10,7 @@ node {
                     -o './'
                     -s './'
                     -f 'ALL' 
-                    --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
+                    --prettyPrint''', odcInstallation: 'dependency-check'
             dependencyCheckPublisher pattern: 'dependency-check-report.xml'
         }
 
