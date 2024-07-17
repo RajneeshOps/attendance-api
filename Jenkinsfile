@@ -11,14 +11,16 @@ node {
         }
 
         stage('Publish Dependency Check Report') {
-    // Publish Dependency Check report
-    publishHTML([
-        allowMissing: false,
-        alwaysLinkToLastBuild: false,
-        keepAll: true,
-        reportDir: '',
-        reportFiles: 'dep-check.html',
-        reportName: 'Dependency Check Report'
+            // Publish Dependency Check report
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: '',
+                reportFiles: 'dep-check.html',
+                reportName: 'Dependency Check Report'
+            ])
+        }
     } catch (Exception e) {
         currentBuild.result = 'FAILURE'
         throw e
